@@ -1,0 +1,38 @@
+Path shortest= new Path(new Vertex(start));
+    PriorityQueue<Path> frontier = new PriorityQueue<>();
+    PriorityQueue<Path> paths = new PriorityQueue<>();
+    Vertex begin = vertices.get(start);
+    ArrayList<Vertex> visted= new ArrayList<>();
+    visted.add(new Vertex(start));
+    if(start==null || end==null) {
+      throw new NoSuchElementException("NO PATH FOUND1");
+    }
+    for(int i =0; i<begin.edgesLeaving.size();i++){
+      frontier.add(new Path(shortest, begin.edgesLeaving.get(i)));
+    }
+    // frontier [ A ]
+    // shortest C -> A
+
+    while(!(frontier.isEmpty())){
+      shortest=frontier.peek();
+      if(frontier.peek().start.data==start && frontier.peek().end.data==end) {
+        paths.add(frontier.peek());
+      }
+      visted.add(frontier.poll().end);
+      for(int i =0; i<shortest.end.edgesLeaving.size();i++){
+        if(!visted.contains(shortest.end.edgesLeaving.get(i).target)) {
+          frontier.add(new Path(shortest, shortest.end.edgesLeaving.get(i)));
+        }
+        // frontier [ E , B , D ]
+      }
+      //shortest=
+    }
+    if(paths.size()==0){
+      throw new NoSuchElementException("NO PATH FOUND2");
+    }
+    shortest= paths.poll();
+
+    if(shortest.start.data!=start &&shortest.end.data!=end){
+      throw new NoSuchElementException("NO PATH FOUND3");
+    }
+    return shortest; // TODO: Implement this method in Step 7.
